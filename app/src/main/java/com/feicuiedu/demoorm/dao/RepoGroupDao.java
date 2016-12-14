@@ -1,9 +1,5 @@
 package com.feicuiedu.demoorm.dao;
 
-import android.content.Context;
-import android.widget.Button;
-
-import com.feicuiedu.demoorm.DBHelp;
 import com.feicuiedu.demoorm.model.RepoGroup;
 import com.j256.ormlite.dao.Dao;
 
@@ -12,21 +8,35 @@ import java.util.List;
 
 /**
  * Created by gqq on 2016/12/14.
+ * <p>
+ * <p>
+ * ORMLite
+ * <p>
+ * ORMLite有提供 OrmLiteSqliteOpenHelper
+ * <p>
+ * 支持将实体类，直接映射到数据库
+ * <p>
+ * 写实体类 (用它提供的注解，表明TableName,和每个字段)
+ * <p>
+ * TableUtils --- 一些方法 可以（将实体类，直接映射到数据库）
+ * OrmLiteSqliteOpenHelper --- getDao(实体类)可以构建出这个表的Dao
  */
-
-
 public class RepoGroupDao {
-
+    // RepoGroup表Dao对象 (使用ORMLite构建)
     private Dao<RepoGroup, Long> dao;
 
     public RepoGroupDao(DBHelp dbHelp) {
         try {
-            // getDao方法，用来构建指定实体的Dao文件
-            // dao是对哪一个表操作？
-            // 这个表的id是什么类型？
+            // 使用ORMLite构建Dao对象
             dao = dbHelp.getDao(RepoGroup.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void createOrUpdate(List<RepoGroup> list) {
+        for (RepoGroup repo : list) {
+            createOrUpdate(repo);
         }
     }
 

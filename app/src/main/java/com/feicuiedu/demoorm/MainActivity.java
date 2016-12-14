@@ -1,10 +1,10 @@
 package com.feicuiedu.demoorm;
 
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.feicuiedu.demoorm.dao.DBHelp;
 import com.feicuiedu.demoorm.dao.RepoGroupDao;
 import com.feicuiedu.demoorm.model.RepoGroup;
 
@@ -18,23 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 添加10个测试数据(用DAO)
-        DBHelp dbHelp = DBHelp.getInstaance(this);
-        RepoGroupDao repoGroupDao = new RepoGroupDao(dbHelp);
-        for(int i=0; i<10; i++) {
-            RepoGroup repoGroup = new RepoGroup();
-            repoGroup.setId(i+1);
-            repoGroup.setName("类别"+i);
-            repoGroupDao.createOrUpdate(repoGroup);
-        }
-        // 查询输出log
-        List<RepoGroup> repoGroups = repoGroupDao.queryForAll();
-        for(RepoGroup repoGroup:repoGroups){
-            Log.d("TAG", repoGroup.toString());
-        }
-        // 查询输出log(查id为5的类别)
-        RepoGroup repoGroup = repoGroupDao.queryForId(5);
-        Log.d("TAG", "id为5的："+repoGroup.toString());
+//        // 添加10个测试数据
+//        DBHelp dbHelp = DBHelp.getInstaance(this);
+//        RepoGroupDao repoGroupDao = new RepoGroupDao(dbHelp);
+//        for(int i=0; i<10; i++) {
+//            RepoGroup repoGroup = new RepoGroup();
+//            repoGroup.setId(i+1);
+//            repoGroup.setName("类别"+i);
+//            repoGroupDao.createOrUpdate(repoGroup);
+//        }
+//        // 查询输出log
+//        List<RepoGroup> repoGroups = repoGroupDao.queryForAll();
+//        for(RepoGroup repoGroup:repoGroups){
+//            Log.d("TAG", repoGroup.toString());
+//        }
+//        // 查询输出log(查id为5的类别)
+//        RepoGroup repoGroup = repoGroupDao.queryForId(5);
+//        Log.d("TAG", "id为5的："+repoGroup.toString());
     }
 
     // ORM 对象关系映射

@@ -1,4 +1,4 @@
-package com.feicuiedu.demoorm;
+package com.feicuiedu.demoorm.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,7 +21,7 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
     private Context context;
 
     private DBHelp(Context context) {
-        super(context, "testdb", null, 1);
+        super(context, "testdb", null, 2);
         this.context = context;
     }
 
@@ -34,9 +34,11 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
-        // 创建表
+        // 创建表(使用ORMLite)
         try {
             TableUtils.createTableIfNotExists(connectionSource,RepoGroup.class);
+            // 添加本地默认数据进去
+            new RepoGroupDao(this).createOrUpdate( RepoGroup.getDefaultGroup(context) );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +46,7 @@ public class DBHelp extends OrmLiteSqliteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        // 更新表
+        // 更新表(使用ORMLite)
         try {
             TableUtils.dropTable(connectionSource,RepoGroup.class, true);
             onCreate(database,connectionSource);
